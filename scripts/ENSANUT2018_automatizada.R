@@ -1,22 +1,18 @@
-#Automatización ENSANUT 2018
-#Fecha: 10-08-2021
-#Nombre: Laura Rodríguez
-
 library(tidyverse)
 
 
-            ##### C O D I G O   D E   F U N C I O N E S  P O R  G R U P O ##### 
+            ##### C O D I G O   D E   F U N C I O N E S  P O R  G R U P O #####
 
- 
+
                               #### P O R   R E G I O N ####
 
                           #####  Estados por región  #####
 #Variables: región (norte, centro, cdmx y sur)
 region <- function(data, region, titulo){
-  data %>% 
-    group_by(entidades) %>% 
+  data %>%
+    group_by(entidades) %>%
     select(alimentos, entidades, zona) %>%
-    filter(zona == region) %>% count() %>% 
+    filter(zona == region) %>% count() %>%
     ggplot(aes(x=alimentos, y=freq, fill=entidades))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -29,7 +25,7 @@ region <- function(data, region, titulo){
           axis.text.y = element_text(size = 10),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
 
@@ -37,10 +33,10 @@ region <- function(data, region, titulo){
                      #### Estrato sociodemográfico y regiones ####
 #Variables: región y estrato sociodemográfico
 estrato_region <- function (data, region, titulo){
-  data %>% 
-    group_by(estrato) %>% 
+  data %>%
+    group_by(estrato) %>%
     select(alimentos, estrato, zona) %>%
-    filter(zona == region) %>% count() %>% 
+    filter(zona == region) %>% count() %>%
     ggplot(aes(x=estrato, y=freq, fill=estrato))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -59,13 +55,13 @@ estrato_region <- function (data, region, titulo){
 
 }
 
- 
+
                               #### Sexo y regiones ####
 sexo_region <- function (data, region, titulo){
-  data %>% 
-    group_by(sexo) %>% 
+  data %>%
+    group_by(sexo) %>%
     select(alimentos, sexo, zona) %>%
-    filter(zona == region) %>% count() %>% 
+    filter(zona == region) %>% count() %>%
     ggplot(aes(x=sexo, y=freq, fill=sexo))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -81,14 +77,14 @@ sexo_region <- function (data, region, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
                            ### Edad y regiones ####
 edad_region <- function (data, region, titulo){
-  data %>% 
-    group_by(edades) %>% 
+  data %>%
+    group_by(edades) %>%
     select(alimentos, edades, zona) %>%
-    filter(zona == region) %>% count() %>% 
+    filter(zona == region) %>% count() %>%
     ggplot(aes(x=edades, y=freq, fill=edades))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -109,8 +105,8 @@ edad_region <- function (data, region, titulo){
 
                                ####Dominio y regiones ####
 dominio_region <- function (data, region, titulo){
-  data %>% 
-    group_by(dominio) %>% 
+  data %>%
+    group_by(dominio) %>%
     select(alimentos, dominio, zona) %>%
     filter(zona == region) %>% count() %>%
     ggplot(aes(x=dominio, y=freq, fill=dominio))+
@@ -128,16 +124,16 @@ dominio_region <- function (data, region, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
                              #### P O R   E N T I D A D E S ####
 #### Estado total ####
 estado_grupo <- function(data, estado, titulo){
-  data %>% 
-    group_by(entidades) %>% 
-    filter(estado==entidades) %>% 
-    select(alimentos, entidades) %>% count() %>% 
+  data %>%
+    group_by(entidades) %>%
+    filter(estado==entidades) %>%
+    select(alimentos, entidades) %>% count() %>%
     ggplot(aes(x=alimentos, y=freq, fill=alimentos))+
     geom_bar(stat="identity")+
     theme_minimal()+
@@ -153,13 +149,13 @@ estado_grupo <- function(data, estado, titulo){
 }
 
 
-     
+
                             ### Estrato y Estado ####
 estrato_estado <- function (data, estado, titulo){
-  data %>% 
-    group_by(estrato) %>% 
-    filter(entidades == estado) %>% 
-    select(alimentos, estrato, region) %>% count() %>% 
+  data %>%
+    group_by(estrato) %>%
+    filter(entidades == estado) %>%
+    select(alimentos, estrato, region) %>% count() %>%
     ggplot(aes(x=estrato, y=freq, fill=estrato))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -175,15 +171,15 @@ estrato_estado <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
                           ### Sexo y estado ####
 sexo_estado <- function (data, estado, titulo){
-  data %>% 
-    group_by(sexo) %>% 
-    filter(entidades == estado) %>% 
-    select(alimentos, sexo, region) %>% count() %>% 
+  data %>%
+    group_by(sexo) %>%
+    filter(entidades == estado) %>%
+    select(alimentos, sexo, region) %>% count() %>%
     ggplot(aes(x=sexo, y=freq, fill=sexo))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -199,14 +195,14 @@ sexo_estado <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
                            #### Edades y estado ####
 edad_estado <- function (data, estado, titulo){
-  data %>% 
-    group_by(edades) %>% 
-    filter(entidades == estado) %>% 
-    select(alimentos, edades, region) %>% count() %>% 
+  data %>%
+    group_by(edades) %>%
+    filter(entidades == estado) %>%
+    select(alimentos, edades, region) %>% count() %>%
     ggplot(aes(x=edades, y=freq, fill=edades))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -222,15 +218,15 @@ edad_estado <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
                             #### Dominio y estado ####
 dominio_estado <- function (data, estado, titulo){
-  data %>% 
-    group_by(dominio) %>% 
-    filter(entidades == estado) %>% 
-    select(alimentos, dominio, region) %>% count() %>% 
+  data %>%
+    group_by(dominio) %>%
+    filter(entidades == estado) %>%
+    select(alimentos, dominio, region) %>% count() %>%
     ggplot(aes(x=dominio, y=freq, fill=dominio))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -246,18 +242,18 @@ dominio_estado <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
                              #### Sexo, estrato, edad, estado ####
 especifico <- function(data, genero, socio, estado, dominios, gpo_edad, titulo){
-  data %>% 
-    select(sexo, region, estrato, entidades, alimentos, dominio, edades) %>% 
+  data %>%
+    select(sexo, region, estrato, entidades, alimentos, dominio, edades) %>%
     filter(sexo==genero,
            estrato==socio,
            entidades==estado,
            edades==gpo_edad,
-           dominio==dominios) %>% 
+           dominio==dominios) %>%
     ggplot(aes(x=alimentos, fill=alimentos))+
     geom_bar(stat = "count")+
     theme_minimal()+
@@ -271,7 +267,7 @@ especifico <- function(data, genero, socio, estado, dominios, gpo_edad, titulo){
           strip.background=element_rect(colour="white", fill="white"))+
     geom_text(aes(label=..count..), stat="count", vjust= -0.1, colour= "black",
               size=3)
-  
+
 }
 
 
@@ -293,22 +289,22 @@ region(data=data_filtrado, region = "Sur",
        titulo = "Consumo de alimentos por entidad federativa en el Sur")
 
 #Estrato y region
-estrato_region(data=data_filtrado, region = "Sur", 
+estrato_region(data=data_filtrado, region = "Sur",
                titulo = "Consumo de alimentos en el centro por estrato sociodemográfico")
 
 #Sexo y región
 
-sexo_region(data=data_filtrado, region = "Sur", 
+sexo_region(data=data_filtrado, region = "Sur",
             titulo = "Frecuencia de consumo en el sur por sexo")
 
 #Edad y region
-edad_region(data=data_filtrado, region = "Centro", 
+edad_region(data=data_filtrado, region = "Centro",
             titulo = "Frecuencia de consumo en el centro por edad")
 
 #Rural y region
-dominio_region(data = data_filtrado, region = "Sur", 
+dominio_region(data = data_filtrado, region = "Sur",
                titulo = "Consumo de alimentos en el sur por dominio")
- 
+
 
 
 
@@ -318,39 +314,39 @@ estado_grupo(data=data_filtrado, estado = "Jalisco",
              titulo = "Consumo de alimentos por entidad federativa en el Sur")
 
 ###Estrato y estado
-estrato_estado(data=data_filtrado, estado = "Sonora", 
+estrato_estado(data=data_filtrado, estado = "Sonora",
                titulo = "Frecuencia de consumo en el Sonora por estrato sociodemográfico")
 
 #Sexo y estado
-sexo_estado(data=data_filtrado, estado = "Chiapas", 
+sexo_estado(data=data_filtrado, estado = "Chiapas",
             titulo = "Frecuencia de consumo en el Chiapas por sexo")
 
 #Edad y estado
-edad_estado(data=data_filtrado, estado = "Morelos", 
+edad_estado(data=data_filtrado, estado = "Morelos",
             titulo = "Frecuencia de consumo en Morelos por grupo de edad")
 
 #Dominio y estado
-dominio_estado(data = data_filtrado, estado = "Zacatecas", 
+dominio_estado(data = data_filtrado, estado = "Zacatecas",
                titulo = "Consumo de alimentos en Zacatecas por dominio")
 
 #Específico: sexo, edad, estrato y estado
 especifico(data = data_filtrado, genero="Hombre", socio="Bajo",
-           estado="Sonora", dominios= "Rural", gpo_edad="Adolescentes", 
+           estado="Sonora", dominios= "Rural", gpo_edad="Adolescentes",
            titulo = "Consumo de alimentos en adolescentes hombres de Sonora en un estrato
            sociodemográfico bajo en una zona rural")
 
 
 
            #### C O D I G O  D E  F U N C I O N E S  S U B G R U P O S####
-                                
+
 
 
                                      #### NACIONAL ####
 
 nacional_subgrupo <- function(data, titulo){
-  data %>% 
-    group_by(subgrupo)  %>% 
-    select(subgrupo) %>% count() %>% 
+  data %>%
+    group_by(subgrupo)  %>%
+    select(subgrupo) %>% count() %>%
     ggplot(aes(x=subgrupo, y=freq, fill=subgrupo))+
     geom_bar(stat="identity")+
     theme_minimal()+
@@ -360,15 +356,15 @@ nacional_subgrupo <- function(data, titulo){
     xlab("Frecuencia")+
     theme(axis.text.x = element_text(size = 10, angle = 90, hjust = 1),
           axis.text.y = element_text(size = 10))
-    
+
 }
 
                             #### R E G I O N E S ####
 catalogo_region <- function(data, region, titulo){
-  data %>% 
-    group_by(entidades) %>% 
+  data %>%
+    group_by(entidades) %>%
     select(subgrupo, entidades, zona) %>%
-    filter(zona == region) %>% count() %>% 
+    filter(zona == region) %>% count() %>%
     ggplot(aes(x=subgrupo, y=freq, fill=subgrupo))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -381,16 +377,16 @@ catalogo_region <- function(data, region, titulo){
           axis.text.y = element_text(size = 10),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
                           #### ESTADO ####
 
 estado_subgrupo <- function(data, estado, titulo){
-  data %>% 
-    group_by(subgrupo)  %>% 
-    filter(entidades == estado) %>% 
-    select(subgrupo) %>% count() %>% 
+  data %>%
+    group_by(subgrupo)  %>%
+    filter(entidades == estado) %>%
+    select(subgrupo) %>% count() %>%
     ggplot(aes(x=subgrupo, y=freq, fill=subgrupo))+
     geom_bar(stat="identity")+
     theme_minimal()+
@@ -405,10 +401,10 @@ estado_subgrupo <- function(data, estado, titulo){
 #Sexo y estado
 
 catalogo_ef_sexo <- function (data, estado, titulo){
-  data %>% 
-    group_by(sexo) %>% 
-    filter(entidades == estado) %>% 
-    select(subgrupo, sexo, entidades) %>% count() %>% 
+  data %>%
+    group_by(sexo) %>%
+    filter(entidades == estado) %>%
+    select(subgrupo, sexo, entidades) %>% count() %>%
     ggplot(aes(x=sexo, y=freq, fill=sexo))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -429,10 +425,10 @@ catalogo_ef_sexo <- function (data, estado, titulo){
 
 #Dominio y estado
 catalogo_ef_dominio <- function (data, estado, titulo){
-  data %>% 
-    group_by(dominio) %>% 
-    filter(entidades == estado) %>% 
-    select(subgrupo, dominio, entidades) %>% count() %>% 
+  data %>%
+    group_by(dominio) %>%
+    filter(entidades == estado) %>%
+    select(subgrupo, dominio, entidades) %>% count() %>%
     ggplot(aes(x=dominio, y=freq, fill=dominio))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -448,15 +444,15 @@ catalogo_ef_dominio <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
 #Edades y estado
 catalogo_ef_edad <- function (data, estado, titulo){
-  data %>% 
-    group_by(edades) %>% 
-    filter(entidades == estado) %>% 
-    select(subgrupo, edades, region) %>% count() %>% 
+  data %>%
+    group_by(edades) %>%
+    filter(entidades == estado) %>%
+    select(subgrupo, edades, region) %>% count() %>%
     ggplot(aes(x=edades, y=freq, fill=edades))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -472,15 +468,15 @@ catalogo_ef_edad <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
 
 #Estrato y estado
 catalogo_ef_estrato <- function (data, estado, titulo){
-  data %>% 
-    group_by(estrato) %>% 
-    filter(entidades == estado) %>% 
-    select(subgrupo, estrato, region) %>% count() %>% 
+  data %>%
+    group_by(estrato) %>%
+    filter(entidades == estado) %>%
+    select(subgrupo, estrato, region) %>% count() %>%
     ggplot(aes(x=estrato, y=freq, fill=estrato))+
     geom_bar(stat = "identity")+
     theme_minimal()+
@@ -496,7 +492,7 @@ catalogo_ef_estrato <- function (data, estado, titulo){
     theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
           panel.border=element_blank(),
           strip.background=element_rect(colour="white", fill="white"))
-  
+
 }
               ###### A U T O M A T I Z A C I O N  P O R  S U B G R U P O ####
 
@@ -505,7 +501,7 @@ catalogo_ef_estrato <- function (data, estado, titulo){
 
 #lacteos            #comida_rapida    #botanas
 #frutas             #carnes           #bebidas
-#verduras           #mariscos         #leguminosas  
+#verduras           #mariscos         #leguminosas
 #cereales           #maiz             #sopas
 
                       #### N A C I O N A L ####
@@ -521,22 +517,21 @@ catalogo_region(data=bebidas, region = "Norte",
 
                      #### P O R  E N T I D A D  F E D E R A T I V A #####
 #Total
-estado_subgrupo(data = bebidas, estado = "Sonora", 
+estado_subgrupo(data = bebidas, estado = "Sonora",
                 titulo = "Consumo de bebidas en Quintana Roo")
 
 #Dominio y estado
-catalogo_ef_dominio(data = frutas, estado = "Veracruz", 
+catalogo_ef_dominio(data = frutas, estado = "Veracruz",
                titulo = "Consumo de frutas en Morelos por dominio")
 
 #Sexo y estado
-catalogo_ef_sexo(data = bebidas, estado = "Morelos", 
+catalogo_ef_sexo(data = bebidas, estado = "Morelos",
                     titulo = "Consumo de frutas en Morelos por sexo")
 
 #Edad y estado
-catalogo_ef_edad(data = frutas, estado = "Tlaxcala", 
+catalogo_ef_edad(data = frutas, estado = "Tlaxcala",
                  titulo = "Consumo de frutas en Morelos por grupo de edad")
 
 #Estrato y estado
-catalogo_ef_estrato(data = botanas, estado = "Hidalgo", 
+catalogo_ef_estrato(data = botanas, estado = "Hidalgo",
                  titulo = "gggfgfj")
-                                                                                                                                                                                                                                                                                                                           

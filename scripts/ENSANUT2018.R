@@ -1,6 +1,3 @@
-#ENSANUT 2018: Analisis nacional
-#Fecha: 07/07/2021
-#Laura Rodríguez
 
 
 library(tidyverse)
@@ -15,9 +12,9 @@ raw_data <- read.csv("/home/Lau/Documentos/ENSANUT_nutricion/CN_ALIMENTOS_ADU.cs
 #Cambiar los nombres de las variables
 
 colnames(raw_data) <- c("upm", "viv_sel", "hogar", "numren", "grupo", "subgrupo",
-                       "fcsemana", "fc/dia", "tamano/porcion", 
-                       "numero/porcion", "codigo", "suplemento", "edad", 
-                       "sexo", "entidad", "dominio", "altitud", "region", 
+                       "fcsemana", "fc/dia", "tamano/porcion",
+                       "numero/porcion", "codigo", "suplemento", "edad",
+                       "sexo", "entidad", "dominio", "altitud", "region",
                        "estrato" , "f_alim_com", "f_alim_com_insp", "est_dis",
                        "upm_dis")
 
@@ -29,10 +26,10 @@ data_filtrado <- raw_data %>% select("grupo", "subgrupo", "codigo", "edad","regi
 
 
 #Crear una nueva columna para los grupos de alimentos
-data_filtrado <- data_filtrado %>% 
+data_filtrado <- data_filtrado %>%
   mutate(alimentos = grupo)
 
-data_filtrado <- data_filtrado %>% 
+data_filtrado <- data_filtrado %>%
   mutate(zona = region)
 
 
@@ -56,7 +53,7 @@ summary(data_filtrado$grupo)
 data_filtrado$alimentos <- revalue(data_filtrado$alimentos, c("1"= "Lacteos", "2"="Frutas", "3"="Verduras",
                                     "4"="Comida rapida", "5"="Origen animal",
                                     "6"="Alimentos del mar", "7"="Leguminosas",
-                                    "8"= "Cereales", "9"="Productos del maíz", 
+                                    "8"= "Cereales", "9"="Productos del maíz",
                                     "10"="Bebidas", "11"="Botanas, dulces y postres",
                                     "12"="Sopas, cremas y pastas", "13"="Misceláneos",
                                     "14"="Tortilla", "15"="Cantidad de consumo reportada",
@@ -77,18 +74,18 @@ data_filtrado$dominio <- revalue(data_filtrado$dominio, c("1"="Urbano", "2"="Rur
 #Asignar valores a entidad
 data_filtrado <- data_filtrado %>% mutate(entidades = entidad)
 
-data_filtrado$entidades <- revalue(data_filtrado$entidades, c("1"= "Aguascalientes", 
-                                                          "2"="Baja California Norte", 
+data_filtrado$entidades <- revalue(data_filtrado$entidades, c("1"= "Aguascalientes",
+                                                          "2"="Baja California Norte",
                                                           "3"="Baja California Sur",
                                                           "4"="Campeche", "5"="Coahuila",
                                                           "6"="Colima", "7"="Chiapas",
-                                                          "8"= "Chihuahua", 
-                                                          "9"="CdMx", 
-                                                          "10"="Durango", 
+                                                          "8"= "Chihuahua",
+                                                          "9"="CdMx",
+                                                          "10"="Durango",
                                                           "11"="Guanajuato",
-                                                          "12"="Guerrero", 
+                                                          "12"="Guerrero",
                                                           "13"="Hidalgo",
-                                                          "14"="Jalisco", 
+                                                          "14"="Jalisco",
                                                           "15"="Edo. México",
                                                           "16"= "Michoacán",
                                                           "17"="Morelos",
@@ -96,20 +93,20 @@ data_filtrado$entidades <- revalue(data_filtrado$entidades, c("1"= "Aguascalient
                                                           "19"= "Nuevo León",
                                                           "20"="Oaxaca",
                                                           "21"= "Puebla",
-                                                          "22"="Querétaro", 
+                                                          "22"="Querétaro",
                                                           "23"="Quintana Roo",
                                                           "24"="San Luis Potosí",
                                                           "25"= "Sinaloa",
                                                           "26"="Sonora",
                                                           "27"="Tabasco",
                                                           "28"="Tamaulipas",
-                                                          "29"="Tlaxcala", 
+                                                          "29"="Tlaxcala",
                                                           "30"="Veracruz",
-                                                          "31"="Yucatán", 
+                                                          "31"="Yucatán",
                                                           "32"="Zacatecas"))
 #Intervalos por edades
 
-data_filtrado <- data_filtrado %>% 
+data_filtrado <- data_filtrado %>%
   mutate(edades= case_when(edad <= 19 ~"Adolescentes",
                            edad >= 20 & edad <= 59 ~"Adultos",
                            edad >= 60 ~"Adultos mayores"))
@@ -140,21 +137,21 @@ ggplot(data_filtrado, aes(x=alimentos, fill=alimentos))+
    #         size=3)+
   ggtitle("Consumo de alimentos en México ENSANUT 2018")
 
-#Para evaluar el consumo por regiones y estrato se va a normalizar POR CONSUMO 
+#Para evaluar el consumo por regiones y estrato se va a normalizar POR CONSUMO
 #GENERAL DE ALIMENTOS (no por grupo de alimentos) y se va a generar dos tibble
 # un tibble es un dataframe optimizado
 
                   ##### R E G I O N E S #####
 #Tibble para regiones
-R<- data_filtrado %>% 
-  group_by(alimentos) %>% 
-  select(alimentos, zona) %>% 
+R<- data_filtrado %>%
+  group_by(alimentos) %>%
+  select(alimentos, zona) %>%
   count()
 
 summary(R)
 str(R)
-#Se hace summary para conocer la frecuencia máxima y poder 
-#normalizarlo/ponderarlo 
+#Se hace summary para conocer la frecuencia máxima y poder
+#normalizarlo/ponderarlo
 
 regiones <- as_tibble(R)
 regiones <- group_by(as.character((regiones$zona)))
@@ -164,7 +161,7 @@ summary(regiones)
 regiones$normalizar <- (regiones$freq-149)/(41142-149)*100
 regiones$normalizado <- (regiones$freq)/(41142)*100
 
-#Gráfica para consumo de alimentos por región 
+#Gráfica para consumo de alimentos por región
 ggplot(regiones, aes(x=zona, y=normalizado, fill=zona))+
   geom_bar(stat = "identity")+
   theme_minimal()+
@@ -180,8 +177,8 @@ ggplot(regiones, aes(x=zona, y=normalizado, fill=zona))+
 
               ##### S O C I O D E M O G R A F I C O #####
 
-S <- data_filtrado %>% 
-  group_by(alimentos) %>% 
+S <- data_filtrado %>%
+  group_by(alimentos) %>%
   select(alimentos, estrato) %>% count()
 
 summary(S)
@@ -208,11 +205,11 @@ ggplot(socioeconomico, aes(x=estrato, y=normalizado, fill=estrato))+
   theme(strip.text.x = element_text(size = 13, angle = 90, hjust = 1),
         panel.border=element_blank(),
         strip.background=element_rect(colour="white", fill="white"))
- 
+
                             #### S E X O ####
 
-SX <- data_filtrado %>% 
-  group_by(alimentos) %>% 
+SX <- data_filtrado %>%
+  group_by(alimentos) %>%
   select(alimentos, sexo) %>% count()
 summary(SX)
 
@@ -239,8 +236,8 @@ ggplot(sexo_p, aes(x=sexo, y=normalizar, fill=sexo))+
        strip.background=element_rect(colour="white", fill="white"))
 
                         ##### POR EDADES #####
-edad <- data_filtrado %>% 
-  group_by(alimentos) %>% 
+edad <- data_filtrado %>%
+  group_by(alimentos) %>%
   select(alimentos, edades) %>% count()
 summary(edad)
 
@@ -262,13 +259,13 @@ ggplot(edad, aes(x=edades, y=normalizar, fill=edades))+
   theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
         panel.border=element_blank(),
         strip.background=element_rect(colour="white", fill="white"))
- 
+
                         ##### ESTADOS ####
 ##Norte
 
-Norte <- data_filtrado %>% 
-  group_by(entidades) %>% 
-  filter(zona == "Norte") %>% 
+Norte <- data_filtrado %>%
+  group_by(entidades) %>%
+  filter(zona == "Norte") %>%
   select(alimentos, entidades, zona) %>% count()
 
 summary(Norte)
@@ -311,5 +308,5 @@ ggtitle("Frecuencua de consumo de alimentos en México")+
   theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
         panel.border=element_blank(),
         strip.background=element_rect(colour="white", fill="white"))
-        
+
 data_filtrado2
