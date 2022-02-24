@@ -4,6 +4,8 @@ ensanut_filtrado <- read.csv("clean_data/ensanut_filtrado.csv")
 
 # Inicio de funciones
 
+# Grafico por regiones (Norte, Centro, Sur, cdmx)
+
 region_plot <- function(region, title, title_alig = 0.5){
   ensanut_filtrado %>%
     group_by(entidades) %>%
@@ -25,3 +27,30 @@ region_plot <- function(region, title, title_alig = 0.5){
 
 }
 
+# clasificacion por region y estrato socioeconomico
+
+# se deben normalizar estos datos
+
+socioeconomic_plot <- function (region, title, title_alig = 0.5){
+  ensanut_filtrado %>%
+    group_by(estrato) %>%
+    select(alimentos, estrato, zona) %>%
+    filter(zona == region) %>% count() %>%
+    ggplot(aes(x=estrato, y=freq, fill=estrato))+
+    geom_bar(stat = "identity")+
+    theme_minimal()+
+    scale_fill_manual(values = c("dodgerblue3", "cadetblue3", "hotpink3", "orange3"))+
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank())+
+    ggtitle(title)+
+    labs(fill = "Estrato sociodemográfico")+
+    ylab("Frecuencia de consumo")+
+    xlab("")+
+    facet_grid(.~alimentos, switch = "x")+
+    theme(plot.title = element_text(hjust = title_alig))+
+    theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
+          panel.border=element_blank(),
+          strip.background=element_rect(colour="white", fill="white"))
+
+}
