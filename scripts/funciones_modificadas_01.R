@@ -149,7 +149,6 @@ state_plot <- function(state, title, title_alig = 0.5){
     ggtitle(title)+
     ylab("")+
     xlab("Frecuencia")+
-    facet_grid(.~entidades)+
     theme(plot.title = element_text(hjust = title_alig))+
     theme(axis.text.x = element_text(size = 10, angle = 90, hjust = 1),
           axis.text.y = element_text(size = 10),
