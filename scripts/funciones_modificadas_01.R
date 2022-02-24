@@ -134,3 +134,25 @@ settlement_plot <- function (region, title, title_alig = 0.5){
           strip.background=element_rect(colour="white", fill="white"))
 
 }
+
+# grafico por estado
+
+state_plot <- function(state, title, title_alig = 0.5){
+  ensanut_filtrado %>%
+    group_by(entidades) %>%
+    filter(state==entidades) %>%
+    select(alimentos, entidades) %>% count() %>%
+    ggplot(aes(x=alimentos, y=freq, fill=alimentos))+
+    geom_bar(stat="identity")+
+    theme_minimal()+
+    theme(legend.position = "none")+
+    ggtitle(title)+
+    ylab("")+
+    xlab("Frecuencia")+
+    facet_grid(.~entidades)+
+    theme(plot.title = element_text(hjust = title_alig))+
+    theme(axis.text.x = element_text(size = 10, angle = 90, hjust = 1),
+          axis.text.y = element_text(size = 10),
+          panel.border=element_blank(),
+          strip.background=element_rect(colour="white", fill="white"))
+}
