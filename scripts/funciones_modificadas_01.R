@@ -108,3 +108,29 @@ age_plot <- function (region, title, title_alig = 0.5){
           strip.background=element_rect(colour="white", fill="white"))
 
 }
+
+# clasificacion por dominio
+
+settlement_plot <- function (region, title, title_alig = 0.5){
+  ensanut_filtrado %>%
+    group_by(dominio) %>%
+    select(alimentos, dominio, zona) %>%
+    filter(zona == region) %>% count() %>%
+    ggplot(aes(x=dominio, y=freq, fill=dominio))+
+    geom_bar(stat = "identity")+
+    theme_minimal()+
+    scale_fill_manual(values = c("lightskyblue", "turquoise4"))+
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank())+
+    ggtitle(title)+
+    labs(fill = "Dominio")+
+    ylab("Frecuencia de consumo")+
+    xlab("")+
+    facet_grid(.~alimentos, switch = "x")+
+    theme(plot.title = element_text(hjust = title_alig))+
+    theme(strip.text.x = element_text(size = 10, angle = 90, hjust = 1),
+          panel.border=element_blank(),
+          strip.background=element_rect(colour="white", fill="white"))
+
+}
