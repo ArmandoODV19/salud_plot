@@ -1,6 +1,7 @@
 # nuevas funciones
 
 ensanut_filtrado <- read.csv("clean_data/ensanut_filtrado.csv")
+# checar datos, ya que se eliminaron las frecuencias igual a 0
 
 # Inicio de funciones
 
