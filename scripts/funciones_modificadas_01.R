@@ -140,7 +140,7 @@ settlement_plot <- function (region, title, title_alig = 0.5){
 state_plot <- function(state, title, title_alig = 0.5){
   ensanut_filtrado %>%
     group_by(entidades) %>%
-    filter(state==entidades) %>%
+    filter(entidades==state) %>%
     select(alimentos, entidades) %>% count() %>%
     ggplot(aes(x=alimentos, y=freq, fill=alimentos))+
     geom_bar(stat="identity")+
